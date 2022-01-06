@@ -1,0 +1,19 @@
+#Acknowledgements
+#I would like to start off by thanking my mentor, Jack Prominski, for all the time and 
+#effort he put into helping me through this project. If you are thinking of applying for 
+#the BDB Mentorship Program, I would highly suggest it! I would also like to thank all 
+#the example kernels that were put out by the Big Data Bowl team.
+
+#References:
+
+#Plotting Player Position
+#https://www.kaggle.com/robikscube/nfl-big-data-bowl-plotting-player-position
+
+#EDA Punt Chart and TPR Graph
+#https://www.fantasyfootballdatapros.com/
+
+#Hyper Parameter Tuning XGBoost
+#https://blog.cambridgespark.com/hyperparameter-tuning-in-xgboost-4ff9100a3b2f
+
+#ANN
+#https://thinkingneuron.com/using-artificial-neural-networks-for-regression-in-python/
