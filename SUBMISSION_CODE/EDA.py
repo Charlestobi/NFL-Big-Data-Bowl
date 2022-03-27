@@ -393,9 +393,8 @@ def plot_length(punter_names = 'Tommy Townsend'):
 
   player = ballpp_df.loc[(ballpp_df['displayName'] == punter_names)]
 
-  #grab completions, incompletions, interceptions, and tds separately
+
   puntReceived = player.loc[player['event'] == 'punt_received']
-  #puntLand = player.loc[player['event'] == 'punt_land']
   puntDowned = player.loc[player['event'] == 'punt_downed']
   fairCatch = player.loc[player['event'] == 'fair_catch']
   touchback = player.loc[player['event'] == 'touchback']
@@ -403,13 +402,8 @@ def plot_length(punter_names = 'Tommy Townsend'):
 
   fig, ax = plt.subplots(figsize=(10, 6))
 
-  # scatter plot completions as small green dots with some transparency
   ax.scatter(puntReceived['ball_y'], puntReceived['kickLength'], color='red', alpha=0.6, edgecolors='white', zorder=2)
-  # scatter plot incompletions as small red dots with some transparency
-  #ax.scatter(puntLand['ball_y'], puntLand['kickLength'], color='white', alpha=0.6, edgecolors='white')
-  # scatter plot touchdowns as big green dots with less transparency and larger white outline
   ax.scatter(puntDowned['ball_y'], puntDowned['kickLength'], color='blue', alpha=0.8, edgecolors='white', zorder=3)
-  # scatter plot touchdowns as big red dots with less transparency and larger white outline
   ax.scatter(fairCatch['ball_y'], fairCatch['kickLength'], color='yellow', alpha=0.8, edgecolors='white', zorder=4)
   
   ax.scatter(touchback['ball_y'], touchback['kickLength'], color='purple', alpha=1, edgecolors='white', zorder=5)
@@ -436,22 +430,18 @@ def plot_length(punter_names = 'Tommy Townsend'):
   #ax.set_yticks(np.arange(20, 80, 10));
   #ax.set_xticks(np.linspace(-53.3, 0, 7))
 
-  # style the ticks and the visualization border
   ax.tick_params(axis='x', colors="black", grid_alpha=0.4)
   ax.tick_params(axis='y', colors="black", grid_alpha=0.4)
   plt.setp(ax.spines.values(), color='white', alpha=0.2, linewidth=1)
 
-  # set the title of our plot (all caps)
   ax.set_title('\n'+ ' Punt Location vs Distance ' + '\n', color='black', alpha=1, fontsize=18) #punter_names + 
   ax.set(xlabel="Short Field Position", ylabel = "Kick Length")
 
-  # set the background color of our plot to a dark blue
   ax.set_facecolor('green')
   fig.set_facecolor('white')
 
 #233746
 
-  # set the legend off to the side
   ax.legend(['Punt Received', 'Punt Downed', 'Fair Catch', 'Touchback', 'Out of Bounds'],
             ncol=1, loc='upper left', bbox_to_anchor=(1.05, 1), facecolor='grey', prop={'size': 16})
 
