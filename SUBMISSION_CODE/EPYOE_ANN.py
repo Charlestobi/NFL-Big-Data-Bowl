@@ -177,66 +177,51 @@ print(y_test.shape)
 
 model = Sequential()
  
-# Defining the Input layer and FIRST hidden layer, both are same!
 model.add(Dense(units=5, input_dim=7, kernel_initializer='normal', activation='relu'))
  
-# Defining the Second layer of the model
-# after the first layer we don't have to specify input_dim as keras configure it automatically
 model.add(Dense(units=5, kernel_initializer='normal', activation='tanh'))
  
 #model.add(Dense(units=5, kernel_initializer='normal', activation='relu'))
 
 #model.add(Dense(units=5, kernel_initializer='normal', activation='relu'))
 
-# The output neuron is a single fully connected node 
-# Since we will be predicting a single number
 model.add(Dense(1, kernel_initializer='normal'))
  
-# Compiling the model
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mse', 'mae'])
- 
-# Fitting the ANN to the Training set
+
 model.fit(X_train, y_train ,batch_size = 10, epochs = 100, verbose=10)    
 
 ############################################################################################################################################
 
 def FunctionFindBestParams(X_train, y_train, X_test, y_test):
     
-    # Defining the list of hyper parameters to try
     batch_size_list=[5, 10, 15, 20]
     epoch_list  =   [5, 10, 50, 100]
     
     import pandas as pd
     SearchResultsData=pd.DataFrame(columns=['TrialNumber', 'Parameters', 'Accuracy'])
-    
-    # initializing the trials
+ 
     TrialNumber=0
     for batch_size_trial in batch_size_list:
         for epochs_trial in epoch_list:
             TrialNumber+=1
-            # create ANN model
+          
             model = Sequential()
-            # Defining the first layer of the model
+       
             model.add(Dense(units=5, input_dim=X_train.shape[1], kernel_initializer='normal', activation='relu'))
  
-            # Defining the Second layer of the model
             model.add(Dense(units=5, kernel_initializer='normal', activation='relu'))
             
             model.add(Dense(units=5, kernel_initializer='normal', activation='relu'))
  
-            # The output neuron is a single fully connected node 
-            # Since we will be predicting a single number
             model.add(Dense(1, kernel_initializer='normal'))
- 
-            # Compiling the model
+
             model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mse', 'mae'])
  
-            # Fitting the ANN to the Training set
             model.fit(X_train, y_train ,batch_size = batch_size_trial, epochs = epochs_trial, verbose=0)
             
             MAPE = np.mean(100 * (np.abs(y_test-model.predict(X_test))/y_test))
-            
-            # printing the results of the current iteration
+
             print(TrialNumber, 'Parameters:','batch_size:', batch_size_trial,'-', 'epochs:',epochs_trial, 'Accuracy:', 100-MAPE)
             
             SearchResultsData=SearchResultsData.append(pd.DataFrame(data=[[TrialNumber, str(batch_size_trial)+'-'+str(epochs_trial), 100-MAPE]],
@@ -246,23 +231,19 @@ def FunctionFindBestParams(X_train, y_train, X_test, y_test):
 
  
 ############################################################################################################################################
-# Calling the function
+
 ResultsData=FunctionFindBestParams(X_train, y_train, X_test, y_test)
 
 ResultsData.plot(x='Parameters', y='Accuracy', figsize=(15,4), kind='line')
     
 model.fit(X_train, y_train, batch_size = 10, epochs = 100, verbose=0)
  
-# Generating Predictions on testing data
 Predictions=model.predict(X_test)
- 
-# Scaling the predicted Price data back to original price scale
+
 Predictions=TargetVarScalerFit.inverse_transform(Predictions)
  
-# Scaling the y_test Price data back to original price scale
 y_test_orig=TargetVarScalerFit.inverse_transform(y_test)
- 
-# Scaling the test data back to original scale
+
 Test_Data=PredictorScalerFit.inverse_transform(X_test)
  
 TestingData=pd.DataFrame(data=Test_Data, columns=['x', 'y', 'kickerId', 'Precipitation',
