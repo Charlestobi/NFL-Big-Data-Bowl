@@ -397,11 +397,8 @@ plt.legend()
 plt.show()
 
 model = XGBRegressor()
-# define model evaluation method
 cv = RepeatedKFold(n_splits=20, n_repeats=3, random_state=None)
-# evaluate model
 scores = cross_val_score(rf, X, y, scoring='neg_mean_absolute_error', cv=cv, n_jobs=-1)
-# force scores to be positive
 scores = absolute(scores)
 print('Mean MAE: %.3f (%.3f)' % (scores.mean(), scores.std()))
 
@@ -430,9 +427,7 @@ lgbmR_squared = r2_score(lgbmy_true, lgbmy_pred)
 #Random Forest R-Squared:  0.34
 
 cv = RepeatedKFold(n_splits=20, n_repeats=3, random_state=None)
-# evaluate model
 scores = cross_val_score(gbm, X, y, scoring='neg_mean_absolute_error', cv=cv, n_jobs=-1)
-# force scores to be positive
 scores = absolute(scores)
 print('Mean MAE: %.3f (%.3f)' % (scores.mean(), scores.std()))
 
